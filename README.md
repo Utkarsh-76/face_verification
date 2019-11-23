@@ -34,4 +34,5 @@ Dlib embeddings with frobinious norm logistic regression give us the best and fa
 
 ### Final script : face_verification.py
 This script will print similarity score and whether the pair of images has same/different face.
+
 Syntax: python3 face_verification.py 'path/to/image1' 'path/to/image2'
