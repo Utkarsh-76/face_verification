@@ -1,6 +1,6 @@
 # Face Verification
 
-Approach
+## Approach
 
 Extract embedding an the image using one of the pretrained network and use that embeddings to find similarity score/detect similar face.
 Used 2 different pretrained network to get embeddings in the form of 128D vector.
@@ -14,19 +14,20 @@ Pair of images were used to train the last leg of the model. Pair of images of s
 Probability of image pair being same is used as the similarity score. This probility is derived using predict_proba() method of logistic regression model.
 
 
-Data Preprocessing:
+## Data Preprocessing:
 
 Face from all the images were cropped using mtcnn model for calculating FaceNet embeddings and frontal_face_detector(from dlibs library) for calculating dlibs embeddings.
 The cropped face pixels were normalized for the case of FaceNet embeddings
 
 
-Challenges:
+## Challenges:
 
 Embedding generation was a time consuming task for FaceNet case. Therefore we only got embeddings for 20 positive and 20 negative pairs and trained the two different Logistic Regression models on only 40 pairs. 
 We cannot rely on the results of model trained on ImageNet embeddings due to its small training size.
 
 
-Result:
+## Result:
+
 Getting embeddings from Facenet model is quiet slow and dlibs is very fast. Both the models show very high accuracy when logistic regression model is trained using Frobinious norm of difference in embeddings.
 Dlib embeddings with frobinious norm logistic regression give us the best and fastest results
 
