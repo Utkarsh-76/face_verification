@@ -1,17 +1,28 @@
 # Face Verification
 
-## Approach
+## Final Approach (../code/face_verification.py)
 
-Extract embedding an the image using one of the pretrained network and use that embeddings to find similarity score/detect similar face.
-Used 2 different pretrained network to get embeddings in the form of 128D vector.
-First is FaceNet model present in keras: This model is trained using a siamese network and triplet loss as the loss function
-Second one is dlibs library
+Step 1: Using face recognition tool - dlib to maps an image to a 128 dimensional vector space. (Extract embeddings from both the images)
 
-Pair of images were used to train the last leg of the model. Pair of images of same person was labeled 1 and pair of images of differet images was labelled as 0. The embeddings generated the pair of images were used to create two different Logistic regression model:
-1. Frobinious norm of the difference in embeddings for each pair was calculated and was fed as input to the logistic regression model
-2. Difference between the embeddings of each pair was calculated and all the 128 numbers were fed to logistic regression as input
+Step 2: Find Euclidean distance/norm between the embeddings of both the images
 
-Probability of image pair being same is used as the similarity score. This probility is derived using predict_proba() method of logistic regression model.
+Step 3: Train a Logistic Regression which takes input the Euclidean distance as it's feature and predicts wether the images are similar or not. (The idea behind uisng a Logistic Regression is that the model can change the continuous score into probablity and identify a threshold above which we can say that both the images are similar)
+
+Step 4: Find similarity score between 2 images using predict_proba() function of LogisticRegression package
+
+
+## Other Approaches
+
+Approach 1: (../code/facenet_model.ipynb)
+1. Using FaceNet model present in keras: This model is trained using a siamese network and triplet loss as the loss function
+2. Difference between the embeddings of each pair was calculated and all the 128 numbers were fed to logistic regression as input to predict wether a pair of images are similar
+
+Approach 2: (../code/dlibs_model.ipynb)
+1. Use the embeddings calculated in approach 1 and instead of using embeddings difference, use Euclidean Norm as the only input feature
+
+Approach 3: (../code/dlibs_model.ipynb)
+1. Using dlib library to create the face embedding for each image
+2. Difference between the embeddings of each pair was calculated and all the 128 numbers were fed to logistic regression as input to predict wether a pair of images are similar(same as approach 1)
 
 
 ## Data Preprocessing:
@@ -26,10 +37,11 @@ Embedding generation was a time consuming task for FaceNet case. Therefore we on
 We cannot rely on the results of model trained on ImageNet embeddings due to its small training size.
 
 
-## Result:
+## Conclusion:
 
-Getting embeddings from Facenet model is quiet slow and dlibs is very fast. Both the models show very high accuracy when logistic regression model is trained using Frobinious norm of difference in embeddings.
-Dlib embeddings with frobinious norm logistic regression give us the best and fastest results
+1. Getting embeddings from Facenet model is quiet slow and dlibs is very fast. 
+2. Both the models show very high accuracy when logistic regression model is trained using Frobinious norm of difference in embeddings.
+3. Dlib embeddings with frobinious norm logistic regression give us the best and fastest results
 
 
 ### Final script : face_verification.py
